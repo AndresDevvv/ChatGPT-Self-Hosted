@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='')
 
 
 def chat_with_gpt(prompt):

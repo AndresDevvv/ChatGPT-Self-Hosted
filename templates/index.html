@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Web UI</title>
+</head>
+<body>
+    <h1>ChatGPT Web UI</h1>
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+    <div id="chat-history"></div>
+
+    <script>
+        <!-- Inside the <script> tag in index.html -->
+function sendMessage() {
+    const userInput = document.getElementById('user-input').value;
+    document.getElementById('user-input').value = '';
+
+    // Update chat history with user input
+    document.getElementById('chat-history').innerHTML += `<p>User: ${userInput}</p>`;
+
+    // Send user input to Flask app for processing
+    fetch('/send_message', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `user_input=${encodeURIComponent(userInput)}`,
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update chat history with ChatGPT response
+        document.getElementById('chat-history').innerHTML += `<p>ChatGPT: ${data.response}</p>`;
+    });
+}
+    </script>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</body>
+</html>

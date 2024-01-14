@@ -14,15 +14,15 @@
     <div id="chat-history"></div>
 
     <script>
-        <!-- Inside the <script> tag in index.html -->
+ 
 function sendMessage() {
     const userInput = document.getElementById('user-input').value;
     document.getElementById('user-input').value = '';
 
-    // Update chat history with user input
+
     document.getElementById('chat-history').innerHTML += `<p>User: ${userInput}</p>`;
 
-    // Send user input to Flask app for processing
+
     fetch('/send_message', {
         method: 'POST',
         headers: {
@@ -32,7 +32,7 @@ function sendMessage() {
     })
     .then(response => response.json())
     .then(data => {
-        // Update chat history with ChatGPT response
+      
         document.getElementById('chat-history').innerHTML += `<p>ChatGPT: ${data.response}</p>`;
     });
 }

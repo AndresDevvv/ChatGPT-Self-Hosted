@@ -6,8 +6,12 @@
     <title>GPT</title>
 </head>
 <body>
-    <h1>AD-GPT Web UI</h1>
-
+    <center>
+    <h1>AD-GPT</h1>
+    <h3>Made By AD Dynamics, Hosted By AD Dynamics.</h3>
+    <h2>Press Enter In The Chatbox Or Reload The Page To Reset Chat</h2>
+    <h2>This AI does not retain historical data, ensuring it will not recall any information you share with it.</h2>
+    </center>
     <div id="trial-limit-reached" style="display: none;">
         <center>
         <h3>Trial Limit Reached, To Request Another 5 Trials or More Email Us At: andresdev@addynamics.xyz (School Emails/Chromebooks Work!)</h3>
@@ -20,7 +24,8 @@
     </form>
     
     <div id="chat-history"></div>
-
+ 
+    
 <script>
         // Check if the user has reached the trial limit
         const checkTrialLimit = () => {
@@ -40,7 +45,7 @@
             const userInput = document.getElementById('user-input').value;
             document.getElementById('user-input').value = '';
 
-            document.getElementById('chat-history').innerHTML += `<p>User: ${userInput}</p>`;
+            document.getElementById('chat-history').innerHTML += `<h4>User: ${userInput}</h4>`;
 
             // Check trial limit before sending a message
             checkTrialLimit();
@@ -59,7 +64,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('chat-history').innerHTML += `<p>ChatGPT: ${data.response}</p>`;
+                document.getElementById('chat-history').innerHTML += `<h4>AD-AI: ${data.response}</h4>`;
             });
         }
     </script>
@@ -80,7 +85,10 @@ body {
     background-color: #f8f8f8;
     color: #333;
 }
-
+p {
+    font-family: 'Roboto', sans-serif;
+    color: #1a1a1a;
+}
 h1 {
     text-align: center;
     color: #1a1a1a;
@@ -127,11 +135,11 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#chat-history p {
+#chat-history h4 {
     margin: 10px 0;
 }
 
-#chat-history p:nth-child(odd) {
+#chat-history h4:nth-child(odd) {
     background-color: #f4f4f4;
 }
 
@@ -145,7 +153,7 @@ button:hover {
     }
 }
 
-#chat-history p {
+#chat-history h4 {
     animation: fadeIn 0.5s ease-in-out;
 }
 

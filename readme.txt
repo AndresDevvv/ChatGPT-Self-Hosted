@@ -1,6 +1,7 @@
 CHANGE THE API KEY IN "chatgpy.py"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 Run these to install needed stuff:
+pip install flask
 pip install openai
 pip install markupsafe
 pip install jinja2

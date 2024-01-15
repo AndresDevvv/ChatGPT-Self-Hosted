@@ -8,16 +8,19 @@
 <body>
     <h1>Edit User</h1>
 
-    <form method="post">
+<form method="post">
+    <label for="new-username">New Username:</label>
+    <input type="text" id="new-username" name="new_username" value="{{ user.username }}" required>
 
-        <label for="new-password">New Password:</label>
-        <input type="password" id="new-password" name="new_password" value="{{ user.password }}" required>
+    <label for="new-password">New Password:</label>
+    <input type="password" id="new-password" name="new_password" value="{{ user.password }}" required>
 
-        <label for="new-trials-left">New Trials Left:</label>
-        <input type="number" id="new-trials-left" name="new_trials_left" value="{{ user.trials_left }}" required>
+    <label for="new-trials-left">New Trials Left:</label>
+    <input type="number" id="new-trials-left" name="new_trials_left" value="{{ user.trials_left }}" required>
 
-        <button type="submit">Save Changes</button>
-    </form>
+    <button type="submit">Save Changes</button>
+</form>
+
     <style>
         body {
     font-family: 'Arial', sans-serif;

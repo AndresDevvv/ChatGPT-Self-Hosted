@@ -3,161 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPT</title>
+    <title>Login and Register</title>
 </head>
 <body>
     <center>
-    <h1>AD-GPT</h1>
-    <h3>Made By AD Dynamics, Hosted By AD Dynamics.</h3>
-    <h2>Press Enter In The Chatbox Or Reload The Page To Reset Chat</h2>
-    <h2>This AI does not retain historical data, ensuring it will not recall any information you share with it.</h2>
+        <h1>Login</h1>
+        <form id="login-form" action="/login" method="POST">
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" name="username" required>
+
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <h1>Register</h1>
+        <form id="register-form" action="/register" method="POST">
+            <label for="register-username">Username:</label>
+            <input type="text" id="register-username" name="username" required>
+
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
     </center>
-    <div id="trial-limit-reached" style="display: none;">
-        <center>
-        <h3>Trial Limit Reached, To Request Another 5 Trials or More Email Us At: andresdev@addynamics.xyz (School Emails/Chromebooks Work!)</h3>
-        </center>
-    </div>
-
-    <form id="chat-form">
-        <input type="text" id="user-input" placeholder="Type your message...">
-        <button type="button" onclick="sendMessage()">Send</button>
-    </form>
-    
-    <div id="chat-history"></div>
- 
-    
-<script>
-        // Check if the user has reached the trial limit
-        const checkTrialLimit = () => {
-            const promptsCount = parseInt(localStorage.getItem('prompts')) || 0;
-
-            if (promptsCount >= 5) {
-                // Display alert and update UI
-                alert("You have reached your 5 trial limit. You can't use ChatGPT anymore.");
-                document.getElementById('trial-limit-reached').style.display = 'block';
-            } else {
-                // Increment prompts count and update localStorage
-                localStorage.setItem('prompts', promptsCount + 1);
-            }
-        };
-
-        function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            document.getElementById('user-input').value = '';
-
-            document.getElementById('chat-history').innerHTML += `<h4>User: ${userInput}</h4>`;
-
-            // Check trial limit before sending a message
-            checkTrialLimit();
-
-            if (document.getElementById('trial-limit-reached').style.display === 'block') {
-                // User has reached the trial limit, do not send further messages
-                return;
-            }
-
-            fetch('/send_message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `user_input=${encodeURIComponent(userInput)}`,
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('chat-history').innerHTML += `<h4>AD-AI: ${data.response}</h4>`;
-            });
-        }
-    </script>
-
-
-
-
-
-
-
-
-<style>
-
-body {
-    font-family: 'Roboto', sans-serif;
+    <style>
+ body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    background-color: #f4f4f4;
+}
+
+center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+h1 {
     color: #333;
 }
-p {
-    font-family: 'Roboto', sans-serif;
-    color: #1a1a1a;
-}
-h1 {
-    text-align: center;
-    color: #1a1a1a;
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 300px;
+    max-width: 100%;
+    transition: transform 0.3s ease-in-out;
 }
 
-#chat-form {
-    max-width: 600px;
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+form:hover {
+    transform: scale(1.02);
 }
 
-#user-input {
-    flex: 1;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 14px;
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input {
+    width: calc(100% - 16px);
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 button {
-    padding: 12px 20px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-#chat-history {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-#chat-history h4 {
-    margin: 10px 0;
-}
-
-#chat-history h4:nth-child(odd) {
-    background-color: #f4f4f4;
-}
-
-/* Animation for chat history fade-in */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-#chat-history h4 {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-
-</style>
+    </style>
 </body>
 </html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT</title>
+</head>
+<body>
+    <center>
+    <h1>AD-GPT</h1>
+    <h1>Welcome back, {{ username }}!</h1>
+    <h3>You have {{ trials_left }} prompts left.</h3>    
+    </center>
+    <div id="trial-limit-reached" style="display: none;">
+        <center>
+        <h3>Trial Limit Reached, To Request Another 5 Trials or More Email Us At: andresdev@addynamics.xyz (School Emails/Chromebooks Work!)</h3>
+        </center>
+    </div>
+
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+    
+    <div id="chat-history"></div>
+    <center>
+    <h2>Info:</h2>
+    <h3>Made By AD Dynamics, Hosted By AD Dynamics.</h3>
+    <h3>Press Enter In The Chatbox Or Reload The Page To Reset Chat</h3>
+    <h3>This AI does not retain historical data, ensuring it will not recall any information you share with it.</h3>
+    </center>
+    
+<script>
+        // Check if the user has reached the trial limit
+        const checkTrialLimit = () => {
+            const trialsLeft = parseInt(localStorage.getItem('trialsLeft')) || 5;
+
+            if (trialsLeft <= 0) {
+                // Display alert and update UI
+                document.getElementById('trial-limit-reached').style.display = 'block';
+                document.getElementById('user-input').disabled = true;
+            } else {
+                // Decrement trialsLeft and update localStorage
+                localStorage.setItem('trialsLeft', trialsLeft - 1);
+            }
+        };
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            document.getElementById('user-input').value = '';
+
+            document.getElementById('chat-history').innerHTML += `<h4>User: ${userInput}</h4>`;
+
+            // Check trial limit before sending a message
+            checkTrialLimit();
+
+            if (document.getElementById('trial-limit-reached').style.display === 'block') {
+                // User has reached the trial limit, do not send further messages
+                return;
+            }
+
+            fetch('/send_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_input=${encodeURIComponent(userInput)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('chat-history').innerHTML += `<h4>AD-AI: ${data.response}</h4>`;
+            });
+        }
+    </script>
+
+<style>
+    body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+p {
+    font-family: 'Roboto', sans-serif;
+    color: #1a1a1a;
+}
+h1 {
+    text-align: center;
+    color: #1a1a1a;
+}
+
+#chat-form {
+    max-width: 600px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#user-input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+button {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#chat-history {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-history h4 {
+    margin: 10px 0;
+}
+
+#chat-history h4:nth-child(odd) {
+    background-color: #f4f4f4;
+}
+
+/* Animation for chat history fade-in */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#chat-history h4 {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+</style>
+</body>
+</html>

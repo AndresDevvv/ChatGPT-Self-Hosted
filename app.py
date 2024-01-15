@@ -100,15 +100,15 @@ def admin_panel():
         abort(403)  # Forbidden
 
 
+# Updated route to edit a user
 @app.route('/admin/edit/<username>', methods=['GET', 'POST'])
 def edit_user(username):
     if username in users:
         if request.method == 'POST':
             # Update user information based on the form data
-            users[username]['username'] = request.form['new_username']
             users[username]['password'] = request.form['new_password']
             users[username]['trials_left'] = int(request.form['new_trials_left'])
-
+            
             update_database(users)
 
             return redirect('/admin')

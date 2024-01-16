@@ -15,7 +15,12 @@ def set_user_cookie(username, response):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Check if the user has a valid cookie
+    username = request.cookies.get('username')
+    if username and username in users:
+        return redirect('/chat')
+    else:
+        return render_template('index.html')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -26,9 +31,8 @@ def login():
     if username in users:
         user = users[username]
 
-        # Check if the password is correct (for simplicity, don't check password here)
-        # For a more secure implementation, consider adding proper password validation
-        if True:  # Replace this with proper password validation
+        # Check if the entered password matches the stored password
+        if password == user['password']:
             # Set a cookie with the username
             resp = make_response(redirect('/chat'))
             set_user_cookie(username, resp)
@@ -38,7 +42,6 @@ def login():
             return "Invalid password"
     else:
         return "Invalid username"
-
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form['username']
@@ -134,4 +137,4 @@ def update_database(users_data):
         json.dump(users_data, file)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port="5000", debug=True)

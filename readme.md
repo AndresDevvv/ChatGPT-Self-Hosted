@@ -43,7 +43,7 @@ This repository provides a simple integration of ChatGPT into both a Python-base
 4. Edit your `chatgpt.py`:
 
    ```python
-   url = 'put this as http://localhost:8080 or http://127.0.0.1:8080'
+   url = 'put this as http://localhost:8080/v1/chat/completions or http://127.0.0.1:8080/v1/chat/completions'
    access_token = "Change this to your access token."
    ```
 

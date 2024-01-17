@@ -26,9 +26,8 @@ def login():
     if username in users:
         user = users[username]
 
-        # Check if the password is correct (for simplicity, don't check password here)
-        # For a more secure implementation, consider adding proper password validation
-        if True:  # Replace this with proper password validation
+        # Check if the password is correct
+        if password == user['password']:  # Replace this with proper password validation
             # Set a cookie with the username
             resp = make_response(redirect('/chat'))
             set_user_cookie(username, resp)
@@ -49,7 +48,7 @@ def register():
         return "Username already exists. Choose a different username."
     else:
         # Create a new user in the database
-        users[username] = {'password': password, 'trials_left': 5}
+        users[username] = {'password': password, 'trials_left': 300}
         update_database(users)
 
         # Redirect to chat after successful registration

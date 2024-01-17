@@ -1,5 +1,5 @@
 # ChatGPT Integration for Python and Go (You should use tmux for starting the web ui up and the API)
-Ensure you have a minimum Go version of 1.21.
+Ensure you have a minimum Go version of 1.21. (This guide was written for ubuntu 20.04)
 
 This repository provides a simple integration of ChatGPT into both a Python-based web UI and a Go-based API. Follow the instructions below to set up and run the application.
 
@@ -10,7 +10,7 @@ This repository provides a simple integration of ChatGPT into both a Python-base
 2. Install the required dependencies by running the following commands:
 
    ```
-   sudo apt  install gccgo-go
+   sudo snap install gccgo-go
    sudo apt install python3
    sudo apt install python3-pip
    pip install flask openai markupsafe jinja2

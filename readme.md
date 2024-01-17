@@ -10,6 +10,7 @@ This repository provides a simple integration of ChatGPT into both a Python-base
 2. Install the required dependencies by running the following commands:
 
    ```
+   sudo apt  install gccgo-go
    sudo apt install python3
    sudo apt install python3-pip
    pip install flask openai markupsafe jinja2

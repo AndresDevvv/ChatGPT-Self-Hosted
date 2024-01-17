@@ -15,7 +15,12 @@ def set_user_cookie(username, response):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Check if the user has a valid cookie
+    username = request.cookies.get('username')
+    if username and username in users:
+        return redirect('/chat')
+    else:
+        return render_template('index.html')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -37,7 +42,6 @@ def login():
             return "Invalid password"
     else:
         return "Invalid username"
-
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form['username']
@@ -99,15 +103,15 @@ def admin_panel():
         abort(403)  # Forbidden
 
 
+# Updated route to edit a user
 @app.route('/admin/edit/<username>', methods=['GET', 'POST'])
 def edit_user(username):
     if username in users:
         if request.method == 'POST':
             # Update user information based on the form data
-            users[username]['username'] = request.form['new_username']
             users[username]['password'] = request.form['new_password']
             users[username]['trials_left'] = int(request.form['new_trials_left'])
-
+            
             update_database(users)
 
             return redirect('/admin')
@@ -133,4 +137,4 @@ def update_database(users_data):
         json.dump(users_data, file)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port="5000", debug=True)

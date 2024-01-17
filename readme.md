@@ -1,4 +1,4 @@
-# ChatGPT Integration for Python and Go 
+# ChatGPT Integration for Python and Go (You should use tmux for starting the web ui up and the API)
 Ensure you have a minimum Go version of 1.21.
 
 This repository provides a simple integration of ChatGPT into both a Python-based web UI and a Go-based API. Follow the instructions below to set up and run the application.

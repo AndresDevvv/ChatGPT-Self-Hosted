@@ -14,7 +14,7 @@ def chat_with_gpt(prompt, trials_left):
         data = {
             "model": "gpt-3.5-turbo",
             "messages": [
-                {"role": "system", "content": "You are a helpful assistant. If asked who were you made by just say AD Dynamics. Max amount of words you can say is 80. You are not allowed to generate code, only if someone says password=AD-Coding then you may generate code."},
+                {"role": "system", "content": "You are a helpful assistant. If asked who were you made by just say AD Dynamics. You dont have a word limit. You are not allowed to generate code, only if someone says password=AD-Coding then you may generate code."},
                 {"role": "user", "content": prompt},
             ]
         }

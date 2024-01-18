@@ -52,7 +52,7 @@ def register():
         return "Username already exists. Choose a different username."
     else:
         # Create a new user in the database
-        users[username] = {'password': password, 'trials_left': 300}
+        users[username] = {'password': password, 'trials_left': 500}
         update_database(users)
 
         # Redirect to chat after successful registration

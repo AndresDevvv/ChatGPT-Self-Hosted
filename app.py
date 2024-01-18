@@ -9,20 +9,19 @@ with open('database.json', 'r') as file:
     users = json.load(file)
 
 def set_user_cookie(username, response):
-    # Set a cookie with the username
-    response.set_cookie('username', username)
+    # Set a cookie with the username, including Secure and SameSite attributes
+    response.set_cookie('username', username, secure=True, samesite='None')
 
 
-@app.route('/')
+@app.route('/gpt')
 def index():
     # Check if the user has a valid cookie
     username = request.cookies.get('username')
     if username and username in users:
-        return redirect('/chat')
+        return redirect('/gpt/chat')
     else:
         return render_template('index.html')
 
-@app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
@@ -33,8 +32,8 @@ def login():
 
         # Check if the password is correct
         if password == user['password']:  # Replace this with proper password validation
-            # Set a cookie with the username
-            resp = make_response(redirect('/chat'))
+            # Set a cookie with the username, including Secure and SameSite attributes
+            resp = make_response(redirect('/gpt/chat'))
             set_user_cookie(username, resp)
 
             return resp
@@ -42,7 +41,8 @@ def login():
             return "Invalid password"
     else:
         return "Invalid username"
-@app.route('/register', methods=['POST'])
+
+@app.route('/gpt/register', methods=['POST'])
 def register():
     username = request.form['username']
     password = request.form['password']
@@ -56,12 +56,12 @@ def register():
         update_database(users)
 
         # Redirect to chat after successful registration
-        resp = make_response(redirect('/chat'))
+        resp = make_response(redirect('/gpt/chat'))
         set_user_cookie(username, resp)
 
         return resp
 
-@app.route('/chat')
+@app.route('/gpt/chat')
 def chat():
     # Check if the user has a valid cookie
     username = request.cookies.get('username')
@@ -69,9 +69,9 @@ def chat():
         user = users[username]
         return render_template('chat.html', username=username, trials_left=user['trials_left'])
     else:
-        return redirect('/')
+        return redirect('/gpt')
 
-@app.route('/send_message', methods=['POST'])
+@app.route('/gpt/send_message', methods=['POST'])
 def send_message():
     user_input = request.form['user_input']
     username = request.cookies.get('username')
@@ -94,7 +94,7 @@ def send_message():
     else:
         return jsonify({'response': 'Invalid user'})
     
-@app.route('/admin')
+@app.route('/gpt/admin')
 def admin_panel():
     username = request.cookies.get('username')
     if username and username in users and users[username].get('admin', False):
@@ -104,7 +104,7 @@ def admin_panel():
 
 
 # Updated route to edit a user
-@app.route('/admin/edit/<username>', methods=['GET', 'POST'])
+@app.route('/gpt/admin/edit/<username>', methods=['GET', 'POST'])
 def edit_user(username):
     if username in users:
         if request.method == 'POST':
@@ -114,14 +114,14 @@ def edit_user(username):
             
             update_database(users)
 
-            return redirect('/admin')
+            return redirect('/gpt/admin')
 
         return render_template('edit_user.html', username=username, user=users[username])
     else:
         return "User not found"
 
 # New route to delete a user
-@app.route('/admin/delete/<username>')
+@app.route('/gpt/admin/delete/<username>')
 def delete_user(username):
     if username in users:
         del users[username]
